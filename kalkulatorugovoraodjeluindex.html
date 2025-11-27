@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="hr">
+<head>
+  <meta charset="UTF-8">
+  <title>Kalkulator ugovora o djelu</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 400px;
+      margin: 40px auto;
+      padding: 20px;
+      border: 1px solid #ccc;
+      border-radius: 10px;
+    }
+    input, button {
+      width: 100%;
+      padding: 10px;
+      margin-top: 10px;
+      font-size: 1em;
+    }
+    button {
+      background-color: #007bff;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #0056b3;
+    }
+    .result {
+      margin-top: 20px;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <h2>Kalkulator ugovora o djelu</h2>
+  <label for="neto">Neto iznos (€):</label>
+  <input type="number" id="neto" placeholder="Unesi neto iznos">
+
+  <label for="porez">Porez (%)</label>
+  <input type="number" id="porez" value="15">
+
+  <label for="osnovica">Osnovica poreza (% od bruto)</label>
+  <input type="number" id="osnovica" value="70">
+
+  <button onclick="izracunaj()">Izračunaj bruto</button>
+
+  <div class="result" id="rezultat"></div>
+
+  <script>
+    function izracunaj() {
+      const neto = parseFloat(document.getElementById("neto").value);
+      const porezPosto = parseFloat(document.getElementById("porez").value);
+      const osnovicaPosto = parseFloat(document.getElementById("osnovica").value);
+
+      if (isNaN(neto) || neto <= 0) {
+        document.getElementById("rezultat").innerText = "Unesi ispravan neto iznos.";
+        return;
+      }
+
+      const efektivnaStopa = (porezPosto / 100) * (osnovicaPosto / 100);
+      const bruto = neto / (1 - efektivnaStopa);
+      const porez = bruto * efektivnaStopa;
+
+      document.getElementById("rezultat").innerHTML =
+        `Bruto iznos: ${bruto.toFixed(2)} €<br>` +
+        `Porez: ${porez.toFixed(2)} €`;
+    }
+  </script>
+</body>
+</html>
